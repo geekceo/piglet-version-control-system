@@ -1,2 +1,8 @@
 .git
 venv
+piglet
+test
+main_test.py
+out.json
+setup.py
+__pycache__
