@@ -1,0 +1,59 @@
+{
+    "content": [
+        {
+            "path": "C:\\Users\\GeekCeo\\PythonProjects\\LowLevel\\Piglet",
+            "dirs": [
+                "test",
+                "piglet",
+                "prod_test"
+            ],
+            "files": [
+                "out.json",
+                "main_test.py",
+                "setup.py"
+            ]
+        },
+        {
+            "path": "C:\\Users\\GeekCeo\\PythonProjects\\LowLevel\\Piglet\\piglet",
+            "dirs": [
+                "__pycache__"
+            ],
+            "files": [
+                "__init__.py",
+                "config.py",
+                "initialization.py"
+            ]
+        },
+        {
+            "path": "C:\\Users\\GeekCeo\\PythonProjects\\LowLevel\\Piglet\\piglet\\__pycache__",
+            "dirs": [],
+            "files": [
+                "config.cpython-310.pyc",
+                "initialization.cpython-310.pyc",
+                "__init__.cpython-310.pyc"
+            ]
+        },
+        {
+            "path": "C:\\Users\\GeekCeo\\PythonProjects\\LowLevel\\Piglet\\prod_test",
+            "dirs": [
+                "__pycache__"
+            ],
+            "files": [
+                "piglet.py",
+                "test.file"
+            ]
+        },
+        {
+            "path": "C:\\Users\\GeekCeo\\PythonProjects\\LowLevel\\Piglet\\prod_test\\__pycache__",
+            "dirs": [],
+            "files": [
+                "piglet.cpython-310.pyc"
+            ]
+        },
+        {
+            "path": "C:\\Users\\GeekCeo\\PythonProjects\\LowLevel\\Piglet\\test",
+            "dirs": [],
+            "files": []
+        }
+    ]
+}
