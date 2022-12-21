@@ -8,7 +8,7 @@ from piglet.config import error_messages, info_messages
 class Initialization():
     '''Behavior during initialization repo'''
 
-    def __make_repo(self, content: dict) -> None:
+    def __make_repo(self) -> None:
         '''Creating a repo file with info files'''
 
         if '.piglet' not in os.listdir(self.cwd):

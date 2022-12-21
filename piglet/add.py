@@ -3,6 +3,7 @@ import json
 import os
 import os.path
 
+from piglet.config import info_messages
 from piglet.iolib import IO
 
 
@@ -28,18 +29,16 @@ class Add():
     def __build_tree(self, dir: str) -> dict:
         '''Building a tree of all files and dirs'''
         
-        index = {'content': []}
-        pignore_list = self.__pignore()
+        index: dict = {'content': []}
+        pignore_list: list = self.__pignore()
+        pignore_set: set
         for dirpath, dirnames, filenames in os.walk(self.cwd):
             if dirpath != self.cwd:
-                if pignore_list:
-                    dirnames = list(set(dirnames) - set(pignore_list))
-                    filenames = list(set(filenames) - set(pignore_list))
-                    if len(list(set(dirpath.split('\\')) & set(pignore_list))) > 0: continue
-                else:
-                    dirnames = list(set(dirnames) - {'.pignore', '.piglet'})
-                    filenames = list(set(filenames) - {'.pignore', '.piglet'})
-                    if len(list(set(dirpath.split('\\')) & {'.pignore', '.piglet'})) > 0: continue
+                pignore_set = set(pignore_list) if pignore_list else {'.pignore', '.piglet'}
+
+                dirnames = list(set(dirnames) - pignore_set)
+                filenames = list(set(filenames) - pignore_set)
+                if len(list(set(dirpath.split('\\')) & pignore_set)) > 0: continue
 
                 index['content'].append({'path': os.path.relpath(path=dirpath, start=self.cwd).replace('\\', '/'), 'dirs': dirnames, 'files': filenames})
 
@@ -53,12 +52,20 @@ class Add():
         #print(json.dumps(index, sort_keys=True, indent=4))
 
     def __init__(self, file: str):
+        io: IO = IO()
+
         self.cwd = os.getcwd()
         self.file = file if file != '.' else self.cwd
+
+        self.__hashed_file: str
 
         if os.path.isdir(file):
             content = self.__build_tree(self.file)['content']
 
             for elem in content:
                 for file in elem['files']:
-                    IO().write_hash(file='.piglet/index', hashed_file=f"{elem['path']}/{file}")
+                    self.__hashed_file = f"{elem['path']}/{file}"
+                    if not io.write_hash(file='.piglet/index', hashed_file=self.__hashed_file):
+                        io.log(data=f'{self.__hashed_file}: {info_messages["add_no_changes"]}', data_type='INFO')
+                    else:
+                        io.log(data=f'{self.__hashed_file}: {info_messages["add_with_changes"]}', data_type='SUCCESS')
