@@ -11,6 +11,9 @@ def main(argv: List[str]):
     io: IO = IO()
 
     if 'add' in argv:
+        # file = argv[argv.index('add') + 1]
+        # Add(file)
+
         try:
             file = argv[argv.index('add') + 1]
             Add(file)

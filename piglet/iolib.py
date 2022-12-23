@@ -4,6 +4,8 @@ from typing import List
 from colorama import just_fix_windows_console
 from termcolor import colored
 
+from piglet.config import type_messages
+
 
 class IO:
     '''Class for writing and reading index file'''
@@ -12,17 +14,23 @@ class IO:
     def log(self, data: str, data_type: str = 'SUCCESS'):
         just_fix_windows_console()
 
-        if data_type == 'SUCCESS':
-            print('INFO: ', end='')
-            print(colored(data, 'green'))
+        type_m = type_messages[data_type][0]
+        color_m = type_messages[data_type][1]
 
-        if data_type == 'INFO':
-            print('INFO: ', end='')
-            print(colored(data, 'white'))
+        print(f'{type_m}: ', end='')
+        print(colored(data, color_m))
 
-        if data_type == 'ERROR':
-            print('ERROR: ', end='')
-            print(colored(data, 'red'))
+        # if data_type == 'SUCCESS':
+        #    print('INFO: ', end='')
+        #    print(colored(data, 'green'))
+
+        # if data_type == 'INFO':
+        #    print('INFO: ', end='')
+        #    print(colored(data, 'white'))
+
+        # if data_type == 'ERROR':
+        #    print('ERROR: ', end='')
+        #    print(colored(data, 'red'))
         
 
     def __check_matching(self, file: str, stroke: str):

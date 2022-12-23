@@ -3,7 +3,7 @@ import json
 import os
 import os.path
 
-from piglet.config import info_messages
+from piglet.config import error_messages, info_messages
 from piglet.iolib import IO
 
 
@@ -55,12 +55,13 @@ class Add():
         io: IO = IO()
 
         self.cwd = os.getcwd()
-        self.file = file if file != '.' else self.cwd
+        self.__file = file if file != '.' else self.cwd
 
         self.__hashed_file: str
 
         if os.path.isdir(file):
-            content = self.__build_tree(self.file)['content']
+            '''if file is dir then build tree of included files and dirs to make index'''
+            content = self.__build_tree(self.__file)['content']
 
             for elem in content:
                 for file in elem['files']:
@@ -69,3 +70,15 @@ class Add():
                         io.log(data=f'{self.__hashed_file}: {info_messages["add_no_changes"]}', data_type='INFO')
                     else:
                         io.log(data=f'{self.__hashed_file}: {info_messages["add_with_changes"]}', data_type='SUCCESS')
+
+        else:
+            '''if file is file (not dir) then we indexed it'''
+
+            self.__hashed_file = self.__file
+            if self.__file not in self.__pignore():
+                if not io.write_hash(file='.piglet/index', hashed_file=self.__hashed_file):
+                    io.log(data=f'{self.__hashed_file}: {info_messages["add_no_changes"]}', data_type='INFO')
+                else:
+                    io.log(data=f'{self.__hashed_file}: {info_messages["add_with_changes"]}', data_type='SUCCESS')
+            else:
+                io.log(data=f'{self.__hashed_file}: {error_messages["file_in_pignore"]}', data_type='ERROR')

@@ -6,3 +6,4 @@ main_test.py
 out.json
 setup.py
 __pycache__
+prod_test/test.file
