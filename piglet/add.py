@@ -66,10 +66,14 @@ class Add():
             for elem in content:
                 for file in elem['files']:
                     self.__hashed_file = f"{elem['path']}/{file}"
+
+                    if self.__hashed_file in self.__pignore(): continue
+
                     if not io.write_hash(file='.piglet/index', hashed_file=self.__hashed_file):
                         io.log(data=f'{self.__hashed_file}: {info_messages["add_no_changes"]}', data_type='INFO')
                     else:
                         io.log(data=f'{self.__hashed_file}: {info_messages["add_with_changes"]}', data_type='SUCCESS')
+                        io.create_hash_object(self.__hashed_file)
 
         else:
             '''if file is file (not dir) then we indexed it'''
@@ -80,5 +84,6 @@ class Add():
                     io.log(data=f'{self.__hashed_file}: {info_messages["add_no_changes"]}', data_type='INFO')
                 else:
                     io.log(data=f'{self.__hashed_file}: {info_messages["add_with_changes"]}', data_type='SUCCESS')
+                    io.create_hash_object(self.__hashed_file)
             else:
                 io.log(data=f'{self.__hashed_file}: {error_messages["file_in_pignore"]}', data_type='ERROR')

@@ -1,4 +1,6 @@
 import hashlib
+import os
+from pathlib import Path
 from typing import List
 
 from colorama import just_fix_windows_console
@@ -50,6 +52,14 @@ class IO:
             hash_content = hashlib.sha256(f.read().encode('utf-8')).hexdigest()
 
         return hash_content
+
+    def create_hash_object(self, file: str) -> None:
+        hash_content: list = list(self.__get_hash_from_file(hashed_file=file))
+
+        start, end = ''.join(hash_content[:len(hash_content) - (len(hash_content) - 2)]), ''.join(hash_content[2:])
+
+        os.mkdir(f'.piglet/objects/{start}')
+        Path(f'.piglet/objects/{start}/{end}').touch(exist_ok=True)
 
     def write_hash(self, file: str, hashed_file: str):
         hash_content = self.__get_hash_from_file(hashed_file=hashed_file)
